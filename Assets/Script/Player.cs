@@ -19,8 +19,16 @@ public class Player : MonoBehaviour
         worldPos.z = 0;
 
         //move the player towards the mouth according to given speed
-        Vector3.MoveTowards(transform.position, worldPos, speed * Time.fixedDeltaTime);
+        var target = Vector3.MoveTowards(transform.position, worldPos, speed * Time.fixedDeltaTime);
 
-        rb.MovePosition(worldPos);
+        var targetViewportPos = Camera.main.WorldToViewportPoint(target);
+        if(targetViewportPos.x <0.5f)
+        {
+            rb.velocity = Vector2.zero;
+        }
+        else
+        {
+            rb.MovePosition(target);
+        }
     }
 }
