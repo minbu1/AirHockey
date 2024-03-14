@@ -9,7 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/Intro.unity
     guid: d93be01ffc9c1544a9f4491ba6fe1a82
   - enabled: 1
-    path: Assets/Scenes/Normal Game.unity
+    path: Assets/Scenes/SinglePlayer 1.unity
+    guid: 5ecb1c6532540cb44b12767755cf179a
+  - enabled: 1
+    path: Assets/Scenes/Multiplayer.unity
     guid: c0df781588249004ab1371d0957ff598
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity

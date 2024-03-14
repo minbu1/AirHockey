@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
 {
+    public enum ControlType { ArrowKeys, WASD }
+    public ControlType controlType;
+
     public float speed = 10;
     Rigidbody2D rb;
 
@@ -15,20 +18,23 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        worldPos.z = 0;
+        float moveHorizontal = 0;
+        float moveVertical = 0;
 
-        //move the player towards the mouth according to given speed
-        var target = Vector3.MoveTowards(transform.position, worldPos, speed * Time.fixedDeltaTime);
+        // Determine input based on control type
+        switch (controlType)
+        {
+            case ControlType.ArrowKeys:
+                moveHorizontal = Input.GetKey(KeyCode.RightArrow) ? 1 : (Input.GetKey(KeyCode.LeftArrow) ? -1 : 0);
+                moveVertical = Input.GetKey(KeyCode.UpArrow) ? 1 : (Input.GetKey(KeyCode.DownArrow) ? -1 : 0);
+                break;
+            case ControlType.WASD:
+                moveHorizontal = Input.GetKey(KeyCode.D) ? 1 : (Input.GetKey(KeyCode.A) ? -1 : 0);
+                moveVertical = Input.GetKey(KeyCode.W) ? 1 : (Input.GetKey(KeyCode.S) ? -1 : 0);
+                break;
+        }
 
-        var targetViewportPos = Camera.main.WorldToViewportPoint(target);
-        if(targetViewportPos.x <0.5f)
-        {
-            rb.velocity = Vector2.zero;
-        }
-        else
-        {
-            rb.MovePosition(target);
-        }
+        Vector2 movement = new Vector2(moveHorizontal, moveVertical);
+        rb.velocity = movement.normalized * speed;
     }
 }
